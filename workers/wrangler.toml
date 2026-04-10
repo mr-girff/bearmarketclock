@@ -1,0 +1,12 @@
+name = "bearmarketclock-api"
+main = "api-proxy.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "BEAR_KV"
+# Replace with your actual KV namespace ID after running:
+# wrangler kv:namespace create "BEAR_KV"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+
+[vars]
+ENVIRONMENT = "production"
