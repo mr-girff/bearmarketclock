@@ -3,54 +3,29 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    background-color: #0a0a0f;
-    color: #e2e8f0;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
   html { scroll-behavior: smooth; }
-}
-
-@layer utilities {
-  .text-gradient-red {
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
   }
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .card-dark {
-    background: #13131a;
-    border: 1px solid #1e1e2e;
-    border-radius: 1rem;
-  }
-  .card-glow {
-    box-shadow: 0 0 40px rgba(239,68,68,0.08), 0 4px 24px rgba(0,0,0,0.6);
+  h1, h2, h3, h4, h5, h6 {
+    color: #f8fafc;
   }
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+@layer components {
+  .prose-blog h2 { @apply text-white text-2xl font-bold mt-8 mb-4; }
+  .prose-blog h3 { @apply text-white text-xl font-semibold mt-6 mb-3; }
+  .prose-blog p { @apply text-slate-300 mb-4 leading-relaxed; }
+  .prose-blog ul { @apply list-disc list-inside mb-4 space-y-2 text-slate-300; }
+  .prose-blog ol { @apply list-decimal list-inside mb-4 space-y-2 text-slate-300; }
+  .prose-blog li { @apply text-slate-300; }
+  .prose-blog strong { @apply text-white font-semibold; }
+  .prose-blog a { @apply text-red-400 hover:text-red-300 underline; }
+  .prose-blog blockquote { @apply border-l-4 border-red-500 pl-4 italic text-slate-400 my-4; }
+  .prose-blog code { @apply bg-white/10 px-1.5 py-0.5 rounded text-sm text-orange-300; }
+  .prose-blog table { @apply w-full text-sm mb-6; }
+  .prose-blog th { @apply text-left text-slate-400 border-b border-white/10 pb-2; }
+  .prose-blog td { @apply py-2 text-slate-300 border-b border-white/5; }
 }
-.blink { animation: blink 1.5s ease-in-out infinite; }
-
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-.progress-shimmer {
-  background: linear-gradient(90deg, #ef4444 0%, #ff6b6b 50%, #ef4444 100%);
-  background-size: 200% auto;
-  animation: shimmer 2s linear infinite;
-}
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0a0f; }
-::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #ef4444; }
