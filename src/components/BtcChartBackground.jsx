@@ -21,6 +21,8 @@ function catmullRomPath(pts) {
 export default function BtcChartBackground({ isBearMarket }) {
   const [points, setPoints] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const pathRef = useRef(null);
+
   const W = 1440, H = 420;
   const PAD_X = 0, PAD_Y = 60;
 
@@ -68,6 +70,7 @@ export default function BtcChartBackground({ isBearMarket }) {
           <stop offset="0%" stopColor={gradStop1} />
           <stop offset="100%" stopColor={gradStop2} />
         </linearGradient>
+        {/* Clip path for left-to-right draw animation */}
         <clipPath id="drawClip">
           <rect x="0" y="0" width={W} height={H}>
             <animate
@@ -112,13 +115,13 @@ export default function BtcChartBackground({ isBearMarket }) {
         strokeLinejoin="round"
         strokeLinecap="round"
         filter="url(#glow)"
-clipPath="url(#drawClip)"
+        clipPath="url(#drawClip)"
         style={{ opacity: 0.7 }}
       />
 
       {/* Pulsing dot at latest price */}
       <g clipPath="url(#drawClip)">
-        <circle cx={last.x cy={last.y r="5" fill={lineColor} opacity="0.9" />
+        <circle cx={last.x} cy={last.y} r="5" fill={lineColor} opacity="0.9" />
         <circle cx={last.x} cy={last.y} r="10" fill="none" stroke={lineColor} strokeWidth="1.5" opacity="0.4">
           <animate attributeName="r" values="6;14;6" dur="2s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite" />
