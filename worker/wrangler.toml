@@ -1,0 +1,20 @@
+name = "bearmarketclock-worker"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[triggers]
+crons = ["0 8 * * *"]  # Daily at 08:00 UTC
+
+[[kv_namespaces]]
+binding = "EMAILS"
+id = "YOUR_KV_NAMESPACE_ID"  # Replace after: wrangler kv:namespace create EMAILS
+
+[vars]
+ENV = "production"
+
+# Deploy:
+#   cd worker
+#   npm install -g wrangler
+#   wrangler login
+#   wrangler kv:namespace create EMAILS   <- copy the id above
+#   wrangler deploy
