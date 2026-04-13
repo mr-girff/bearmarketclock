@@ -1,31 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
+const NAV_LINKS = [
+  { to: "/", label: "🐻 Live Clock" },
+  { to: "/dca-calculator", label: "DCA Calculator" },
+  { to: "/history", label: "History" },
+  { to: "/fear-greed", label: "Fear & Greed" },
+  { to: "/bottom-indicators", label: "Indicators" },
+  { to: "/survival-guide", label: "Survival Guide" },
+  { to: "/blog", label: "Blog" },
+];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-[#0a0a0f]/90 backdrop-blur-md border-b border-[#1e1e2e]" : "bg-transparent"
-    }`}>
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-black text-lg">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/90 backdrop-blur-md border-b border-white/10">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 text-white font-bold text-lg">
           <span>🐻</span>
-          <span>BearMarketClock</span>
-        </div>
-        <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
-          <a href="#history" className="hover:text-white transition-colors">History</a>
-          <a href="#calculator" className="hover:text-white transition-colors">DCA Calc</a>
-          <a href="#guide" className="hover:text-white transition-colors">Survival Guide</a>
-          <a href="#tools" className="hover:text-white transition-colors">Tools</a>
-        </div>
-        <a href="https://www.binance.com/en/activity/referral-entry/CPA" target="_blank" rel="noopener noreferrer sponsored" className="text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-3 py-1.5 rounded-full hover:bvyoyellow-500/30 transition-colors">Start DCA →</a>
+          <span className="hidden sm:inline">BearMarketClock</span>
+        </Link>
+        <nav className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map(link => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                (link.to === "/" ? location.pathname === "/" : location.pathname.startsWith(link.to))
+                  ? "bg-white/10 text-white"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <button className="md:hidden text-slate-400 hover:text-white p-2" onClick={() => setOpen(!open)}>
+          {open ? "✕" : "☰"}
+        </button>
       </div>
-    </nav>
+      {open && (
+        <div className="md:hidden bg-[#0a0a0f] border-b border-white/10 px-4 pb-4">
+          {NAV_LINKS.map(link => (
+            <Link
+              key={link.to}
+              to={link.to}
+              onClick={() => setOpen(false)}
+              className="block py-3 text-slate-300 hover:text-white border-b border-white/5 text-sm"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </header>
   );
 }
