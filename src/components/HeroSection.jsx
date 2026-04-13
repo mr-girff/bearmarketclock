@@ -21,7 +21,7 @@ export default function HeroSection({ data }) {
   const { price, ath, drawdown, isBearMarket, daysSinceAth, bearProgress, loading } = data;
 
   const statusColor = isBearMarket ? "text-red-500" : "text-green-400";
-  const statusText = isBearMarket ? "YES — BEAR MARKET 🔻" : "NOT YET— STILL RECOVERIGG 📈";
+  const statusText = isBearMarket ? "YES — BEAR MARKET 🔻" : "NOT YET — STILL RECOVERING 📈";
   const statusBg = isBearMarket ? "border-red-500/30 bg-red-500/5" : "border-green-500/30 bg-green-500/5";
 
   return (
@@ -31,7 +31,7 @@ export default function HeroSection({ data }) {
       </div>
       <div className="flex items-center gap-2 mb-6 bg-[#13131a] border border-[#1e1e2e] rounded-full px-4 py-1.5 text-sm text-slate-400">
         <span className="w-2 h-2 rounded-full bg-red-500 blink" />
-        Live data \u00b7 Updated every 30s
+        Live data · Updated every 30s
       </div>
       <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-8">
         Are We In A{" "}
