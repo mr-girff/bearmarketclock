@@ -7,8 +7,8 @@ export const BEAR_MARKETS = [
   { name: "2021–2022 Bear", athDate: "2021-11-10", ath: 69000, bottomDate: "2022-11-21", bottom: 15476, drawdown: -77.6, durationDays: 376, recovered: true },
 ];
 
-const FEAR_GREED_URL = "https://api.alternative.me/fng/";
-const COINGECKO_URL = "https://api.coingecko.com/api/v3";
+// Use same-domain /api/* (served by Pages Function -> Worker) to avoid CORS & rate limits
+const API_BASE = "/api";
 
 export function useBitcoinData() {
   const [data, setData] = useState({
@@ -20,17 +20,18 @@ export function useBitcoinData() {
   const fetchData = useCallback(async () => {
     try {
       const [priceRes, fgRes] = await Promise.all([
-        fetch(`${COINGECKO_URL}/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`),
-        fetch(FEAR_GREED_URL),
+        fetch(`${API_BASE}/price`),
+        fetch(`${API_BASE}/fear`),
       ]);
       const btc = await priceRes.json();
       const fg = await fgRes.json();
-      const price = btc.market_data?.current_price?.usd;
-      const ath = btc.market_data?.ath?.usd;
-      const athDate = btc.market_data?.ath_date?.usd;
-      const drawdown = price && ath ? (((price - ath) / ath) * 100) : null;
-      const fearGreedValue = fg?.data?.[0]?.value;
-      const fearGreedLabel = fg?.data?.[0]?.value_classification;
+      // Worker returns flat fields; support both flat and nested CoinGecko format
+      const price = btc.price ?? btc.market_data?.current_price?.usd;
+      const ath = btc.ath ?? btc.market_data?.ath?.usd;
+      const athDate = btc.ath_date ?? btc.market_data?.ath_date?.usd;
+      const drawdown = btc.drawdown ?? (price && ath ? (((price - ath) / ath) * 100) : null);
+      const fearGreedValue = fg.value ?? fg?.data?.[0]?.value;
+      const fearGreedLabel = fg.value_classification ?? fg?.data?.[0]?.value_classification;
       setData({ price, ath, athDate, drawdown, fearGreed: fearGreedValue, fearGreedLabel, loading: false, error: null, lastUpdated: new Date() });
     } catch (err) {
       setData(prev => ({ ...prev, loading: false, error: err.message }));
