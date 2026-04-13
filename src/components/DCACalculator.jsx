@@ -11,7 +11,7 @@ function fmt(n) { return new Intl.NumberFormat("en-US", { style: "currency", cur
 
 export default function DCACalculator({ currentPrice }) {
   const [monthly, setMonthly] = useState(200);
-  const [startDate, setStartDate] = useState(BEAR_START_DATES.[0]);
+  const [startDate, setStartDate] = useState(BEAR_START_DATES[0]);
 
   const results = useMemo(() => {
     if (!currentPrice) return null;
@@ -33,7 +33,7 @@ export default function DCACalculator({ currentPrice }) {
     <section className="py-20 px-4 bg-[#0d0d14]">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-black text-center mb-4">
-          📈 Bear Market DCA{" "}
+          💈 Bear Market DCA{" "}
           <span className="text-gradient-gold">Calculator</span>
         </h2>
         <p className="text-slate-400 text-center mb-12">What if you kept buying through the pain? Let's see.</p>
